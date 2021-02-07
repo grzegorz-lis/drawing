@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tablica interaktywna</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+      integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ="
+      crossorigin="anonymous"/>
+
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+		
+		<link href="https://fonts.googleapis.com/css2?family=Texturina:wght@900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Tablica przeznaczona dla uczniów i nauczycieli III Lo w Kaliszu <br/> Przedmiot: <strong style="color:#009acd;">Matematyka</strong></h1>
+      <% if(!isAuthenticated ) { %>
+      <form action="/" method="POST">
+        <label for="name">Nazwa użytkownika</label>
+        <input id="name" type="text" name="username">
+        <label for="password">Hasło</label>
+        <input id="password" type="password" name="password">
+        <input type="submit" value="zaloguj">
+      </form>
+      <% } %>
+      <% if(isAuthenticated ) { %>
+      
+      <form action="/image" method="POST" enctype="multipart/form-data">
+         <input type="file" value="zdjęcie" name="image">
+         <input type="submit" value="dodaj">
+      </form>
+      
+     
+<% } %>
+     <img src="\<%= imgUrl %>" width=100 alt="obraz" id='image'>
+
+    </header>
+    <div id="wrapper" >
+      <canvas id="canvas" width="1500" height="10000">  </canvas>
+      
+      
+      <div id="controls" >
+        <path>
+          
+        </path>
+        <div class="content">
+          <div id="widthControl"  title="choose a line width">
+            <div class="widthExample"></div>
+            <div class="widthExample"></div>
+            <div class="widthExample"></div>
+            <div class="widthExample"></div>
+            <div class="widthExample"></div>
+          </div>
+          <div id="palette" title="choose a color"></div>
+    
+
+          <div id="clearBtn" title="clear the canvas" style="display: none;">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div id="counterDiv">
+          <span id="counter">0</span> users <br />are online
+        </div>
+        <% if(isAuthenticated ) { %>
+       <div><a href="/delete">usuń obraz</a></div>
+       <% } %>
+      </div>
+    
+    </div>
+    <footer style="padding-top: 20px; text-align: center; width: 100%; margin-left: auto; margin-right: auto;">&copy; Wiktor Bogacki &copy;</footer>
+    
+  </body>
+
+  <script src="/socket.io/socket.io.js"></script>
+
+  
+ <% if(isAuthenticated === 'true') { %>
+ <script type="module" src="./client.js"></script>
+ <script src="jquery-1.11.3.min.js"></script>
+  <script>
+ 
+    $(document).ready(function() {
+    var NavY = $('.content').offset().top;
+      
+    var stickyNav = function(){
+    var ScrollY = $(window).scrollTop();
+           
+    if (ScrollY > NavY) { 
+        $('.content').addClass('sticky');
+    } else {
+        $('.content').removeClass('sticky'); 
+    }
+    };
+      
+    stickyNav();
+      
+    $(window).scroll(function() {
+        stickyNav();
+    });
+    });
+     
+</script>
+<% }else { %>
+  <script type="module" src="./palete.js"></script>
+  <script src="jquery-1.11.3.min.js"></script>
+  <script>
+ 
+    $(document).ready(function() {
+    var NavY = $('.content').offset().top;
+      
+    var stickyNav = function(){
+    var ScrollY = $(window).scrollTop();
+           
+    if (ScrollY > NavY) { 
+        $('.content').addClass('sticky');
+    } else {
+        $('.content').removeClass('sticky'); 
+    }
+    };
+      
+    stickyNav();
+      
+    $(window).scroll(function() {
+        stickyNav();
+    });
+    });
+     
+</script>
+<% } %>
+ 
+
+</html>
